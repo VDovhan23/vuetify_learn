@@ -54,3 +54,4 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
