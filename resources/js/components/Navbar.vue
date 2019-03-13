@@ -1,12 +1,25 @@
 <template>
     <nav>
-        <v-toolbar light  app height=75 color="blue" class="lighten-2">
+        <v-toolbar light flat app height=75 color="grey" class="lighten-3">
             <v-toolbar-side-icon @click="navigation = !navigation"></v-toolbar-side-icon>
             <v-toolbar-title class="text-uppercase">
-                <span class="font-weight-light">Vuetify</span>
+                <span class="font-weight-light" >Vuetify</span>
                 <span >lerninig app</span>
             </v-toolbar-title>
+
             <v-spacer></v-spacer><!-- Все що до цього компонету буде позиціонуватися зліва. все що після - справа  -->
+
+            <!-- dropdown -->
+            <v-menu offset-y lighten-3 color="grey" >
+                <v-btn flat  slot="activator"><v-icon left>expand_more</v-icon> Links</v-btn>
+                <v-list>
+                    <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
+                        <v-list-tile-title>{{ link.text }}</v-list-tile-title>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+            <!-- End dropdown -->
+
             <v-btn flat >
                 <span>LogOut</span>
                 <v-icon right>exit_to_app</v-icon>
@@ -22,6 +35,9 @@
             <span class="subheading white--text mt-2" >
                 VD Styles
             </span>
+            <v-flex>
+                <CreateProject/>
+            </v-flex>
         </v-layout>
             <v-list>
                 <v-list-tile v-for="link in links" :key="link.text" router :to="link.route">
@@ -40,10 +56,12 @@
 </template>
 
 <script>
+import CreateProject from './CreateProject.vue'
 export default {
+    components:{CreateProject},
     data() {
         return {
-            navigation: true,
+            navigation: false,
             links: [
                 { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
                 { icon: 'folder', text: 'My Projects', route: '/projects' },
