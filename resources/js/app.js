@@ -7,8 +7,11 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 let routes = [
-    { path: '/projects',  component: require('./components/BlaComponent.vue').default },
-    { path: '/',  component: require('./components/BlaComponent.vue').default },
+    { path: '/projects',  component: require('./components/ProjectsComponent.vue').default },
+    { path: '/dashboard',  component: require('./components/DashboardComponent.vue').default },
+    { path: '/',  component: require('./components/DashboardComponent.vue').default },
+    { path: '/team',  component: require('./components/TeamComponent.vue').default },
+    { path: '*', name:'404', component: require('./components/404Component.vue') },
   ]
 
 
