@@ -1,5 +1,14 @@
 <template>
     <nav>
+        <v-snackbar
+            v-model="snap"
+            :timeout="2500"
+            top
+            color="success"
+        >
+            <span>WooHoo! you added a new project!</span>
+            <v-btn flat color="white" @click.native="snap = false">Close</v-btn>
+        </v-snackbar>
         <v-toolbar light flat app height=75 color="grey" class="lighten-3">
             <v-toolbar-side-icon @click="navigation = !navigation"></v-toolbar-side-icon>
             <v-toolbar-title class="text-uppercase">
@@ -36,7 +45,7 @@
                 VD Styles
             </span>
             <v-flex>
-                <CreateProject/>
+                <CreateProject @created="snap=true"/>
             </v-flex>
         </v-layout>
             <v-list>
@@ -66,7 +75,8 @@ export default {
                 { icon: 'dashboard', text: 'Dashboard', route: '/dashboard' },
                 { icon: 'folder', text: 'My Projects', route: '/projects' },
                 { icon: 'person', text: 'Team', route: '/team' },
-            ]
+            ],
+            snap: false
         }
     },
 }

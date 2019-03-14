@@ -1819,18 +1819,49 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       project: {
         title: '',
-        text: ''
-      }
+        text: '',
+        date: null
+      },
+      inputRules: [function (v) {
+        return v.length >= 3 || "Min length is 3";
+      }]
     };
   },
   methods: {
     submitForm: function submitForm() {
-      console.log(this.project);
+      if (this.$refs.form.validate()) {
+        console.log(this.project);
+        this.$emit("created");
+      }
     }
   }
 });
@@ -2042,6 +2073,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
@@ -2062,7 +2102,8 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'person',
         text: 'Team',
         route: '/team'
-      }]
+      }],
+      snap: false
     };
   }
 });
@@ -38186,9 +38227,9 @@ var render = function() {
   return _c(
     "v-dialog",
     {
+      class: { "v-dialog--active": _vm.active },
       attrs: {
         scrollable: "",
-        persistent: "",
         overlay: false,
         "max-width": "650px",
         transition: "dialog-transition"
@@ -38213,9 +38254,15 @@ var render = function() {
             [
               _c(
                 "v-form",
+                { ref: "form" },
                 [
                   _c("v-text-field", {
-                    attrs: { label: "title", "prepend-icon": "folder" },
+                    attrs: {
+                      label: "title",
+                      p: "",
+                      "repend-icon": "folder",
+                      rules: _vm.inputRules
+                    },
                     model: {
                       value: _vm.project.title,
                       callback: function($$v) {
@@ -38229,7 +38276,8 @@ var render = function() {
                     attrs: {
                       label: "Information",
                       name: "Information",
-                      "prepend-icon": "edit"
+                      "prepend-icon": "edit",
+                      rules: _vm.inputRules
                     },
                     model: {
                       value: _vm.project.text,
@@ -38239,6 +38287,43 @@ var render = function() {
                       expression: "project.text"
                     }
                   }),
+                  _vm._v(" "),
+                  _c(
+                    "v-menu",
+                    { attrs: { "offset-y": "" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          slot: "activator",
+                          name: "date_range",
+                          label: "Due Date",
+                          "prepend-icon": "date_range"
+                        },
+                        slot: "activator",
+                        model: {
+                          value: _vm.project.date,
+                          callback: function($$v) {
+                            _vm.$set(_vm.project, "date", $$v)
+                          },
+                          expression: "project.date"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("v-date-picker", {
+                        attrs: { reactive: true },
+                        model: {
+                          value: _vm.project.date,
+                          callback: function($$v) {
+                            _vm.$set(_vm.project, "date", $$v)
+                          },
+                          expression: "project.date"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("v-spacer"),
                   _vm._v(" "),
                   _c(
                     "v-btn",
@@ -38488,6 +38573,37 @@ var render = function() {
     "nav",
     [
       _c(
+        "v-snackbar",
+        {
+          attrs: { timeout: 2500, top: "", color: "success" },
+          model: {
+            value: _vm.snap,
+            callback: function($$v) {
+              _vm.snap = $$v
+            },
+            expression: "snap"
+          }
+        },
+        [
+          _c("span", [_vm._v("WooHoo! you added a new project!")]),
+          _vm._v(" "),
+          _c(
+            "v-btn",
+            {
+              attrs: { flat: "", color: "white" },
+              nativeOn: {
+                click: function($event) {
+                  _vm.snap = false
+                }
+              }
+            },
+            [_vm._v("Close")]
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
         "v-toolbar",
         {
           staticClass: "lighten-3",
@@ -38584,7 +38700,19 @@ var render = function() {
                 _vm._v("\n            VD Styles\n        ")
               ]),
               _vm._v(" "),
-              _c("v-flex", [_c("CreateProject")], 1)
+              _c(
+                "v-flex",
+                [
+                  _c("CreateProject", {
+                    on: {
+                      created: function($event) {
+                        _vm.snap = true
+                      }
+                    }
+                  })
+                ],
+                1
+              )
             ],
             1
           ),
